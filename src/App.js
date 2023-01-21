@@ -1,23 +1,28 @@
-import logo from './logo.svg';
+import { useSelector } from 'react-redux';
+import Form from './components/Form';
+import List from './components/List';
+import Search from './components/Search';
+
 import './App.css';
 
+
 function App() {
+  const data = useSelector(state => state.data);
+  const query = useSelector(state => state.filter)
+
+  const filterData = (items) => {
+    return items.filter(i => i.name.toLowerCase().includes(query.value.toLowerCase()))
+  }
+  console.log(filterData(data))
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="container">
+        <Form />
+        <Search />
+        <hr />
+        <List data={filterData(data)} />
+      </div>
     </div>
   );
 }
